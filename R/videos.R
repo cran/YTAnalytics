@@ -70,7 +70,7 @@ channel_playlists <- function(...) {
 channel_videos <- function(token = getOption("YouTube_Token")) {
   
   channelData <- data_channel_request(part = "contentDetails", mine="true", token = token)
-  uploads <- channelData$contentDetails$relatedPlaylists$uploads
+  uploads <- channelData$items$contentDetails$relatedPlaylists$uploads
   
   channelPlaylists <- channel_playlists(token = token)
   

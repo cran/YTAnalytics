@@ -21,6 +21,8 @@
 youtube_oauth <- function(clientId = NULL, clientSecret = NULL, tokenFile = ".httr-oauth",
                           useOOB = FALSE, setEnvVar = FALSE) {
   
+  YouTubeToken <- NULL
+  
   # Attempt to Read in File
   if (!is.null(tokenFile) & file.exists(tokenFile)) {
     YouTubeToken <- tryCatch(

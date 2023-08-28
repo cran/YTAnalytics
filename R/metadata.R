@@ -15,7 +15,6 @@
 
 video_metadata <- function(videoId = NULL, ...) {
   temp <- as.data.frame(data_video_request(part = "snippet", id = videoId, ...))
-  temp2 <- temp$items.snippet[, c("publishedAt", "title", "description", "channelId",
-                                  "channelTitle", "tags")]
+  temp2 <- temp$items.snippet
   return(temp2)
 }

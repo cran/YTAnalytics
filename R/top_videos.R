@@ -18,8 +18,6 @@
 
 playlist_top_videos <- function(playlistId = NULL, ...) {
   temp <- analytics_request(dimensions = "video",
-                            metrics = "views,estimatedMinutesWatched,averageViewDuration,shares,likes,dislikes,comments",
-                            sort = "-views",
                             filters = paste0("playlist==", playlistId), ...)
   return(temp)
 }
@@ -41,8 +39,6 @@ playlist_top_videos <- function(playlistId = NULL, ...) {
 #' }
 
 channel_top_videos <- function(...) {
-  temp <- analytics_request(dimensions = "video", 
-                            metrics = "views,estimatedMinutesWatched,averageViewDuration,shares,likes,dislikes,comments",
-                            sort = "-views", ...)
+  temp <- analytics_request(dimensions = "video", ...)
   return(temp)
 }

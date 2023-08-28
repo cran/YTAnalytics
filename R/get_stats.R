@@ -17,9 +17,7 @@
 #' } 
 
 video_stats <- function(videoId = NULL, ...) {
-  temp <- analytics_request(metrics = paste0("views,averageViewDuration,estimatedMinutesWatched,shares,likes,",
-                                             "dislikes,comments,subscribersGained,subscribersLost,averageViewPercentage"),
-                            filters = paste0("video==", videoId), ...)
+  temp <- analytics_request(filters = paste0("video==", videoId), ...)
   return(temp)
 }
 
@@ -41,8 +39,7 @@ video_stats <- function(videoId = NULL, ...) {
 #' }
 
 playlist_stats <- function(playlistId = NULL, ...) {
-  temp <- analytics_request(metrics = paste0("views,averageViewDuration,estimatedMinutesWatched"),
-                            filters = paste0("playlist==", playlistId, ";isCurated==1"), ...)
+  temp <- analytics_request(filters = paste0("playlist==", playlistId, ";isCurated==1"), ...)
   return(temp)
 }
 
@@ -63,8 +60,6 @@ playlist_stats <- function(playlistId = NULL, ...) {
 #' }
 
 channel_stats <- function(...) {
-  temp <- analytics_request(metrics = paste0("views,averageViewDuration,estimatedMinutesWatched,shares,likes,",
-                                             "dislikes,comments,subscribersGained,subscribersLost"),
-                            sort="-views", ...)
+  temp <- analytics_request(...)
   return(temp)
 }

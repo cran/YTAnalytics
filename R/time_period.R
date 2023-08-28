@@ -25,7 +25,8 @@ video_time_period <- function(videoId = NULL, period = "day",
   
   time_period_check(period)
   temp <- analytics_request(dimensions = period, endDate = endDate,
-                            filters = paste0("video==", videoId), ...)
+                            filters = paste0("video==", videoId), 
+                            sort = period, ...)
   return(temp)
 }
 
