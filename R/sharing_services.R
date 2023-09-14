@@ -17,10 +17,17 @@
 #' } 
 
 video_sharing_services <- function(videoId = NULL, ...) {
-  temp <- analytics_request(dimensions = "sharingService",
-                            metrics = "shares",
-                            filters = paste0("video==", videoId), ...)
-  return(temp)
+  
+  results <- data.frame()
+  for(i in 1:length(videoId)) {
+    temp <- analytics_request(dimensions = "sharingService",
+                              metrics = "shares",
+                              filters = paste0("video==", videoId[i]), ...)
+    
+    results <- dplyr::bind_rows(results, error_checking(temp, videoId[i], "video"))
+  }
+  
+  return(results)
 }
 
 

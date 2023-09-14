@@ -17,10 +17,16 @@
 #' }
 
 video_live_onDemand <- function(videoId = NULL, ...) {
-  temp <- analytics_request(dimensions = "liveOrOnDemand",
-                            metrics = "views,estimatedMinutesWatched,averageViewDuration",
-                            filters = paste0("video==", videoId), ...)
-  return(temp)
+  
+  results <- data.frame()
+  for(i in 1:length(videoId)) {
+    temp <- analytics_request(dimensions = "liveOrOnDemand",
+                              filters = paste0("video==", videoId[i]), ...)
+    
+    results <- dplyr::bind_rows(results, error_checking(temp, videoId[i], "video"))
+  }
+
+  return(results)
 }
 
 
@@ -41,10 +47,16 @@ video_live_onDemand <- function(videoId = NULL, ...) {
 #' }
 
 playlist_live_onDemand <- function(playlistId = NULL, ...) {
-  temp <- analytics_request(dimensions = "liveOrOnDemand",
-                            metrics = "views,estimatedMinutesWatched,averageViewDuration",
-                            filters = paste0("playlist==", playlistId, ";isCurated==1"), ...)
-  return(temp)
+  
+  results <- data.frame()
+  for(i in 1:length(playlistId)) {
+    temp <- analytics_request(dimensions = "liveOrOnDemand",
+                              filters = paste0("playlist==", playlistId[i], ";isCurated==1"), ...)
+    
+    results <- dplyr::bind_rows(results, error_checking(temp, playlistId[i], "playlist"))
+  }
+  
+  return(results)
 }
 
 
@@ -64,7 +76,6 @@ playlist_live_onDemand <- function(playlistId = NULL, ...) {
 #' }
 
 channel_live_onDemand <- function(...) {
-  temp <- analytics_request(dimensions = "liveOrOnDemand",
-                            metrics = "views,estimatedMinutesWatched,averageViewDuration", ...)
+  temp <- analytics_request(dimensions = "liveOrOnDemand", ...)
   return(temp)
 }

@@ -6,7 +6,7 @@
 \usage{
 analytics_request(
   dimensions = NULL,
-  metrics = "views,estimatedMinutesWatched,shares,likes,dislikes,comments",
+  metrics = "views,estimatedMinutesWatched",
   sort = NULL,
   maxResults = 10,
   filters = NULL,

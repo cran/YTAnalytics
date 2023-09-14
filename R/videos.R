@@ -17,10 +17,17 @@
 #' } 
 
 playlist_videos <- function(playlistId = NULL, ...) {
-  temp <- data_playlistItem_request(part = "contentDetails", 
-                                    playlistId = playlistId, 
-                                    maxResults = 51, ...)
-  return(temp)
+  
+  results <- data.frame()
+  for(i in 1:length(playlistId)) {
+    temp <- data_playlistItem_request(part = "contentDetails", 
+                                      playlistId = playlistId[i], 
+                                      maxResults = 51, ...)
+    
+    results <- dplyr::bind_rows(results, error_checking(temp, playlistId[i], "playlist"))
+  }
+  
+  return(results)
 }
 
 

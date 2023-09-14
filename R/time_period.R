@@ -24,10 +24,17 @@ video_time_period <- function(videoId = NULL, period = "day",
                               endDate = as.character(format(Sys.Date(), "%Y-%m-01")), ...) {
   
   time_period_check(period)
-  temp <- analytics_request(dimensions = period, endDate = endDate,
-                            filters = paste0("video==", videoId), 
-                            sort = period, ...)
-  return(temp)
+  
+  results <- data.frame()
+  for(i in 1:length(videoId)) {
+    temp <- analytics_request(dimensions = period, endDate = endDate,
+                              filters = paste0("video==", videoId[i]), 
+                              sort = period, ...)
+    
+    results <- dplyr::bind_rows(results, error_checking(temp, videoId[i], "video"))
+  }
+  
+  return(results)
 }
 
 

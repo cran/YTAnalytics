@@ -2,7 +2,7 @@
 % Please edit documentation in R/subscription_status.R
 \name{playlist_subscription_status}
 \alias{playlist_subscription_status}
-\title{Title}
+\title{Playlist Subscription Status}
 \usage{
 playlist_subscription_status(playlistId = NULL, ...)
 }

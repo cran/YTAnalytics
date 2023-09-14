@@ -17,9 +17,16 @@
 #' } 
 
 video_countries <- function(videoId = NULL, ...) {
-  temp <- analytics_request(dimensions = "country",
-                            filters = paste0("video==", videoId), ...)
-  return(temp)
+  
+  results <- data.frame()
+  for(i in 1:length(videoId)) {
+    temp <- analytics_request(dimensions = "country",
+                              filters = paste0("video==", videoId[i]), ...)
+    
+    results <- dplyr::bind_rows(results, error_checking(temp, videoId[i], "video"))
+  }
+  
+  return(results)
 }
 
 
@@ -40,11 +47,17 @@ video_countries <- function(videoId = NULL, ...) {
 #' } 
 
 playlist_countries <- function(playlistId = NULL, ...) {
-  temp <- analytics_request(dimensions = "country",
-                            metrics = "views,estimatedMinutesWatched",
-                            filters = paste0("playlist==", playlistId),
-                            ...)
-  return(temp)
+  
+  results <- data.frame()
+  for(i in 1:length(playlistId)) {
+    temp <- analytics_request(dimensions = "country",
+                              filters = paste0("playlist==", playlistId[i], ";isCurated==1"),
+                              ...)
+    
+    results <- dplyr::bind_rows(results, error_checking(temp, playlistId[i], "playlist"))
+  }
+  
+  return(results)
 }
 
 

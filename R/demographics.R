@@ -17,12 +17,19 @@
 #' } 
 
 video_demographics <- function(videoId = NULL, ...) {
-  temp <- analytics_request(dimensions = "ageGroup,gender",
-                            metrics = "viewerPercentage",
-                            sort = "gender,ageGroup",
-                            maxResults = 25,
-                            filters = paste0("video==", videoId), ...)
-  return(temp)
+  
+  results <- data.frame()
+  for(i in 1:length(videoId)) {
+    temp <- analytics_request(dimensions = "ageGroup,gender",
+                              metrics = "viewerPercentage",
+                              sort = "gender,ageGroup",
+                              maxResults = 25,
+                              filters = paste0("video==", videoId[i]), ...)
+    
+    results <- dplyr::bind_rows(results, error_checking(temp, videoId[i], "video"))
+  }
+  
+  return(results)
 }
 
 
@@ -43,12 +50,19 @@ video_demographics <- function(videoId = NULL, ...) {
 #' } 
 
 playlist_demographics <- function(playlistId = NULL, ...) {
-  temp <- analytics_request(dimensions = "ageGroup,gender",
-                            metrics = "viewerPercentage",
-                            sort = "gender,ageGroup",
-                            maxResults = 25,
-                            filters = paste0("playlist==", playlistId), ...)
-  return(temp)
+  
+  results <- data.frame()
+  for(i in 1:length(playlistId)) {
+    temp <- analytics_request(dimensions = "ageGroup,gender",
+                              metrics = "viewerPercentage",
+                              sort = "gender,ageGroup",
+                              maxResults = 25,
+                              filters = paste0("playlist==", playlistId[i], ";isCurated==1"), ...)
+   
+    results <- dplyr::bind_rows(results, error_checking(temp, playlistId[i], "playlist"))
+  }
+
+  return(results)
 }
 
 

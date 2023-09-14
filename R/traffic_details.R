@@ -20,11 +20,17 @@
 #' } 
 
 video_traffic_details <- function(videoId = NULL, trafficType = "EXT_URL",...) {
-  temp <- analytics_request(dimensions = "insightTrafficSourceDetail",
-                            metrics = "views,estimatedMinutesWatched",
-                            filters = paste0("video==", videoId, 
-                                             ";insightTrafficSourceType==", trafficType), ...)
-  return(temp)
+  
+  results <- data.frame()
+  for(i in 1:length(videoId)) {
+    temp <- analytics_request(dimensions = "insightTrafficSourceDetail",
+                              filters = paste0("video==", videoId[i], 
+                                               ";insightTrafficSourceType==", trafficType), ...)
+    
+    results <- dplyr::bind_rows(results, error_checking(temp, videoId[i], "video"))
+  }
+  
+  return(results)
 }
 
 
@@ -48,11 +54,18 @@ video_traffic_details <- function(videoId = NULL, trafficType = "EXT_URL",...) {
 #' } 
 
 playlist_traffic_details <- function(playlistId = NULL, trafficType = "EXT_URL", ...) {
-  temp <- analytics_request(dimensions = "insightTrafficSourceDetail",
-                            metrics = "views,estimatedMinutesWatched",
-                            filters = paste0("playlist==", playlistId, 
-                                             ";insightTrafficSourceType==", trafficType), ...)
-  return(temp)
+  
+  results <- data.frame()
+  for(i in 1:length(playlistId)) {
+    temp <- analytics_request(dimensions = "insightTrafficSourceDetail",
+                              filters = paste0("playlist==", playlistId[i], 
+                                               ";insightTrafficSourceType==", trafficType, 
+                                               ";isCurated==1"), ...)
+    
+    results <- dplyr::bind_rows(results, error_checking(temp, playlistId[i], "playlist"))
+  }
+
+  return(results)
 }
 
 
@@ -76,7 +89,6 @@ playlist_traffic_details <- function(playlistId = NULL, trafficType = "EXT_URL",
 
 channel_traffic_details <- function(trafficType = "EXT_URL", ...) {
   temp <- analytics_request(dimensions = "insightTrafficSourceDetail", 
-                            metrics = "views,estimatedMinutesWatched",
                             filters = paste0("insightTrafficSourceType==", trafficType), ...)
   return(temp)
 }

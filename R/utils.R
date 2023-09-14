@@ -86,7 +86,7 @@ youtube_GET <- function(url = NULL, request = NULL, token){
 #' }
 
 analytics_request <- function(dimensions = NULL, 
-                              metrics = "views,estimatedMinutesWatched,shares,likes,dislikes,comments", 
+                              metrics = "views,estimatedMinutesWatched", 
                               sort = NULL,
                               maxResults = 10, 
                               filters = NULL, 
@@ -102,6 +102,9 @@ analytics_request <- function(dimensions = NULL,
   
   baseUrl <- "https://youtubeanalytics.googleapis.com/v2/reports?"
   params <- as.list(environment())
+  
+  params[["startDate"]] <- as.character(params[["startDate"]])
+  params[["endDate"]] <- as.character(params[["endDate"]])
   
   if(is.null(params[["sort"]])) {
     params[["sort"]] <- paste0("-",sub("\\,.*","", metrics))
@@ -343,4 +346,37 @@ data_video_request <- function(part = NULL, chart = NULL, hl = NULL, id = NULL, 
 
 time_period_check <- function(period) {
   if(!(period %in% c("day", "month"))) stop("Period must be either 'day' or 'month'")
+}
+
+
+
+#' Error Check
+#' 
+#' Make sure that the data returned from the API is not blank
+#'
+#' @param ytResults data.frame. Results from API
+#' @param id string. Video or playlistId
+#' @param contentType string. Either "video" or "playlist" 
+#'
+#' @return data.frame
+#'
+
+error_checking <- function(ytResults, id, contentType) {
+  
+  if(!is.null(ytResults)) {
+    if(nrow(ytResults) > 0) {
+      if(contentType == "video"){
+        ytResults$videoId <- id
+      } else if(contentType == "playlist") {
+        ytResults$playlistId <- id
+      }
+    } else {
+      warning(sprintf("No results returned for %s", id))
+      ytResults <- data.frame()
+    }
+  } else {
+    warning(sprintf("No results returned for %s", id))
+    ytResults <- data.frame()
+  }
+  return(ytResults)
 }

@@ -17,14 +17,20 @@
 #' } 
 
 video_subscription_status <- function(videoId = NULL, ...) {
-  temp <- analytics_request(dimensions = "subscribedStatus",
-                            metrics = "views,estimatedMinutesWatched",
-                            filters = paste0("video==", videoId), ...)
-  return(temp)
+  
+  results <- data.frame()
+  for(i in 1:length(videoId)) {
+    temp <- analytics_request(dimensions = "subscribedStatus",
+                              filters = paste0("video==", videoId[i]), ...)
+    
+    results <- dplyr::bind_rows(results, error_checking(temp, videoId[i], "video"))
+  }
+  
+  return(results)
 }
 
 
-#' Title
+#' Playlist Subscription Status
 #' 
 #' #' @description
 #' Returns the subscription status of playlist views.
@@ -41,10 +47,16 @@ video_subscription_status <- function(videoId = NULL, ...) {
 #' } 
 
 playlist_subscription_status <- function(playlistId = NULL, ...) {
-  temp <- analytics_request(dimensions = "subscribedStatus",
-                            metrics = "views,estimatedMinutesWatched",
-                            filters = paste0("playlist==", playlistId, ";isCurated==1"), ...)
-  return(temp)
+  
+  results <- data.frame()
+  for(i in 1:length(playlistId)) {
+    temp <- analytics_request(dimensions = "subscribedStatus",
+                              filters = paste0("playlist==", playlistId[i], ";isCurated==1"), ...)
+    
+    results <- dplyr::bind_rows(results, error_checking(temp, playlistId[i], "playlist"))
+  }
+  
+  return(results)
 }
 
 
@@ -64,7 +76,6 @@ playlist_subscription_status <- function(playlistId = NULL, ...) {
 #' }
 
 channel_subscription_status <- function(...) {
-  temp <- analytics_request(dimensions = "subscribedStatus",
-                            metrics = "views,estimatedMinutesWatched", ...)
+  temp <- analytics_request(dimensions = "subscribedStatus", ...)
   return(temp)
 }
