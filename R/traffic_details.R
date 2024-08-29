@@ -22,7 +22,9 @@
 video_traffic_details <- function(videoId = NULL, trafficType = "EXT_URL",...) {
   
   results <- data.frame()
+  pb <- prog_bar(length(videoId))
   for(i in 1:length(videoId)) {
+    pb$tick()
     temp <- analytics_request(dimensions = "insightTrafficSourceDetail",
                               filters = paste0("video==", videoId[i], 
                                                ";insightTrafficSourceType==", trafficType), ...)
@@ -56,7 +58,9 @@ video_traffic_details <- function(videoId = NULL, trafficType = "EXT_URL",...) {
 playlist_traffic_details <- function(playlistId = NULL, trafficType = "EXT_URL", ...) {
   
   results <- data.frame()
+  pb <- prog_bar(length(playlistId))
   for(i in 1:length(playlistId)) {
+    pb$tick()
     temp <- analytics_request(dimensions = "insightTrafficSourceDetail",
                               filters = paste0("playlist==", playlistId[i], 
                                                ";insightTrafficSourceType==", trafficType, 

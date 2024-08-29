@@ -19,7 +19,9 @@
 video_sharing_services <- function(videoId = NULL, ...) {
   
   results <- data.frame()
+  pb <- prog_bar(length(videoId))
   for(i in 1:length(videoId)) {
+    pb$tick()
     temp <- analytics_request(dimensions = "sharingService",
                               metrics = "shares",
                               filters = paste0("video==", videoId[i]), ...)

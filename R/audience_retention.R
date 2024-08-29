@@ -26,7 +26,9 @@ video_audience_retention <- function(videoId = NULL, audienceType = "ORGANIC", .
   }
   
   results <- data.frame()
+  pb <- prog_bar(length(videoId))
   for(i in 1:length(videoId)) {
+    pb$tick()
     temp <- analytics_request(dimensions = "elapsedVideoTimeRatio",
                               metrics = "audienceWatchRatio",
                               maxResults = NULL,

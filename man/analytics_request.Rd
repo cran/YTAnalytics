@@ -59,8 +59,8 @@ If none of the other prebuilt functions work for your use case, this is the func
 }
 \examples{
 \dontrun{
-analytics_request(startDate = "2018-05-01",
-                  endDate = "2017-01-01",
+analytics_request(startDate = "2018-05-01", 
+                  endDate = "2017-01-01", 
                   metrics = "views,comments,likes,dislikes,estimatedMinutesWatched")
 }
 }

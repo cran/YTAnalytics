@@ -2,7 +2,7 @@
 % Please edit documentation in R/subscription_status.R
 \name{channel_subscription_status}
 \alias{channel_subscription_status}
-\title{Title}
+\title{Channel Subscription Status}
 \usage{
 channel_subscription_status(...)
 }

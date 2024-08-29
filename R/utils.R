@@ -1,55 +1,4 @@
 
-#' YouTube GET Function
-#' 
-#' @description
-#' this is a helper function to execute GET requests and clean data 
-#' depending on what API is being called.
-#' This function can be but is not intended to be called directly.
-#'
-#' @param url Required. Url path for API request
-#' @param request Required. Used to specify if requesting data from the 
-#'                YouTube Analytics API or YouTube Data api. Either 'analytics' or 'data'.
-#' @param token Required.
-#'
-#' @return data.frame
-#'
-
-
-youtube_GET <- function(url = NULL, request = NULL, token){
-  
-  if(is.null(url) | is.null(request)) stop("url and request required.")
-  
-  r <- httr::GET(url, token)
-  temp <- jsonlite::fromJSON(httr::content(r, as = "text"))
-  
-  if(httr::status_code(r) != 200) stop(temp$error$errors)
-  
-  if (request == "analytics") {
-    
-    if (length(temp$rows)) {
-      
-      df <- as.data.frame(temp$rows)
-      colnames(df) <- temp$columnHeaders$name
-      
-      dataTypes <- temp$columnHeaders$dataType
-      
-      for(i in 1:nrow(temp$columnHeaders)) {
-        if(dataTypes[i] %in% c("INTEGER", "DOUBLE", "FLOAT")) {
-          df[,i] <- as.numeric(df[,i])
-        }
-      }
-      return(df)
-      
-    }
-    
-  } else if (request == "data") {
-    
-    if (length(temp$items)) return(temp)
-  }
-}
-
-
-
 #' Analytics Request Function - YouTube Analytics API
 #' 
 #' @description
@@ -80,8 +29,8 @@ youtube_GET <- function(url = NULL, request = NULL, token){
 #'
 #' @examples
 #' \dontrun{
-#' analytics_request(startDate = "2018-05-01",
-#'                   endDate = "2017-01-01",
+#' analytics_request(startDate = "2018-05-01", 
+#'                   endDate = "2017-01-01", 
 #'                   metrics = "views,comments,likes,dislikes,estimatedMinutesWatched")
 #' }
 
@@ -338,28 +287,48 @@ data_video_request <- function(part = NULL, chart = NULL, hl = NULL, id = NULL, 
 }
 
 
+# helpers ---------------------------------------------------------------------
 
-#' Time Period Check
-#'
-#' @param period Required.
-#' @return None
+
+
+youtube_GET <- function(url = NULL, request = NULL, token){
+  
+  if(is.null(url) | is.null(request)) stop("url and request required.")
+  
+  r <- httr::GET(url, token)
+  temp <- jsonlite::fromJSON(httr::content(r, as = "text"))
+  
+  if(httr::status_code(r) != 200) stop(temp$error$errors)
+  
+  if (request == "analytics") {
+    
+    if (length(temp$rows)) {
+      
+      df <- as.data.frame(temp$rows)
+      colnames(df) <- temp$columnHeaders$name
+      
+      dataTypes <- temp$columnHeaders$dataType
+      
+      for(i in 1:nrow(temp$columnHeaders)) {
+        if(dataTypes[i] %in% c("INTEGER", "DOUBLE", "FLOAT")) {
+          df[,i] <- as.numeric(df[,i])
+        }
+      }
+      return(df)
+      
+    }
+    
+  } else if (request == "data") {
+    
+    if (length(temp$items)) return(temp)
+  }
+}
+
 
 time_period_check <- function(period) {
   if(!(period %in% c("day", "month"))) stop("Period must be either 'day' or 'month'")
 }
 
-
-
-#' Error Check
-#' 
-#' Make sure that the data returned from the API is not blank
-#'
-#' @param ytResults data.frame. Results from API
-#' @param id string. Video or playlistId
-#' @param contentType string. Either "video" or "playlist" 
-#'
-#' @return data.frame
-#'
 
 error_checking <- function(ytResults, id, contentType) {
   
@@ -380,3 +349,16 @@ error_checking <- function(ytResults, id, contentType) {
   }
   return(ytResults)
 }
+
+
+prog_bar <- function(iter) {
+  progress::progress_bar$new(
+    format = "[:bar] :percent [Elapsed time: :elapsedfull || ETA: :eta]",
+    total = iter,
+    complete = "=",
+    incomplete = "-",
+    current = ">",
+    clear = FALSE
+  )
+}
+

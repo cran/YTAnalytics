@@ -9,7 +9,10 @@ youtube_oauth(
   clientSecret = NULL,
   tokenFile = ".httr-oauth",
   useOOB = FALSE,
-  setEnvVar = FALSE
+  setEnvVar = FALSE,
+  scopes = c("https://www.googleapis.com/auth/youtube.readonly",
+    "https://www.googleapis.com/auth/yt-analytics.readonly"),
+  reAuthOnFail = FALSE
 )
 }
 \arguments{
@@ -22,6 +25,12 @@ youtube_oauth(
 \item{useOOB}{If \code{TRUE}, use oob method to copy/paste token into R.}
 
 \item{setEnvVar}{If \code{TRUE}, create an environment variable called "YouTube_Token" to store token.}
+
+\item{scopes}{Scopes that must be passed when authenticating.
+See \url{https://developers.google.com/youtube/analytics/reference} for more information.}
+
+\item{reAuthOnFail}{If \code{TRUE}, will automatically begin authentication process
+if provided token is expired.}
 }
 \value{
 token environment

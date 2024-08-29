@@ -19,7 +19,9 @@
 playlist_videos <- function(playlistId = NULL, ...) {
   
   results <- data.frame()
+  pb <- prog_bar(length(playlistId))
   for(i in 1:length(playlistId)) {
+    pb$tick()
     temp <- data_playlistItem_request(part = "contentDetails", 
                                       playlistId = playlistId[i], 
                                       maxResults = 51, ...)
@@ -29,30 +31,6 @@ playlist_videos <- function(playlistId = NULL, ...) {
   
   return(results)
 }
-
-
-
-
-#' Channel Playlist List
-#'
-#' @param ... Addt. arguments passed to \code{data_playlist_request}
-#'
-#' @return data.frame
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#' playlist_videos(playlistId = "PL2MI040U_GXq1L5JUxNOulWCyXn-7QyZK")
-#' } 
-
-channel_playlists <- function(...) {
-  temp <- data_playlist_request(part = "contentDetails", mine = "true", maxResults = 51, ...)
-  result <- temp
-  return(result)
-}
-
-
-
 
 
 #' Channel Videos List

@@ -26,7 +26,9 @@ video_time_period <- function(videoId = NULL, period = "day",
   time_period_check(period)
   
   results <- data.frame()
+  pb <- prog_bar(length(videoId))
   for(i in 1:length(videoId)) {
+    pb$tick()
     temp <- analytics_request(dimensions = period, endDate = endDate,
                               filters = paste0("video==", videoId[i]), 
                               sort = period, ...)

@@ -19,7 +19,9 @@
 playlist_top_videos <- function(playlistId = NULL, ...) {
   
   results <- data.frame()
+  pb <- prog_bar(length(playlistId))
   for(i in 1:length(playlistId)) {
+    pb$tick()
     temp <- analytics_request(dimensions = "video",
                               filters = paste0("playlist==", playlistId[i]), ...)
     

@@ -19,7 +19,9 @@
 video_subscription_status <- function(videoId = NULL, ...) {
   
   results <- data.frame()
+  pb <- prog_bar(length(videoId))
   for(i in 1:length(videoId)) {
+    pb$tick()
     temp <- analytics_request(dimensions = "subscribedStatus",
                               filters = paste0("video==", videoId[i]), ...)
     
@@ -49,7 +51,9 @@ video_subscription_status <- function(videoId = NULL, ...) {
 playlist_subscription_status <- function(playlistId = NULL, ...) {
   
   results <- data.frame()
+  pb <- prog_bar(length(playlistId))
   for(i in 1:length(playlistId)) {
+    pb$tick()
     temp <- analytics_request(dimensions = "subscribedStatus",
                               filters = paste0("playlist==", playlistId[i], ";isCurated==1"), ...)
     
@@ -60,7 +64,7 @@ playlist_subscription_status <- function(playlistId = NULL, ...) {
 }
 
 
-#' Title
+#' Channel Subscription Status
 #' 
 #' #' @description
 #' Returns the subscription status of channel views.

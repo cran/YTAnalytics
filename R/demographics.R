@@ -19,7 +19,9 @@
 video_demographics <- function(videoId = NULL, ...) {
   
   results <- data.frame()
+  pb <- prog_bar(length(videoId))
   for(i in 1:length(videoId)) {
+    pb$tick()
     temp <- analytics_request(dimensions = "ageGroup,gender",
                               metrics = "viewerPercentage",
                               sort = "gender,ageGroup",
@@ -52,7 +54,9 @@ video_demographics <- function(videoId = NULL, ...) {
 playlist_demographics <- function(playlistId = NULL, ...) {
   
   results <- data.frame()
+  pb <- prog_bar(length(playlistId))
   for(i in 1:length(playlistId)) {
+    pb$tick()
     temp <- analytics_request(dimensions = "ageGroup,gender",
                               metrics = "viewerPercentage",
                               sort = "gender,ageGroup",
