@@ -59,7 +59,7 @@ analytics_request <- function(dimensions = NULL,
     params[["sort"]] <- paste0("-",sub("\\,.*","", metrics))
   }
   
-  paramsList <- Filter(Negate(is.null), params[params != "token"])
+  paramsList <- Filter(Negate(is.null), params[names(params) != "token"])
   
   queryUrl <- paste0(baseUrl, paste0("&", names(paramsList), "=", unlist(paramsList), collapse = ""))
   

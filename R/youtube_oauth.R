@@ -69,7 +69,7 @@ youtube_oauth <- function(clientId = NULL,
   
   YouTubeToken <- tempToken
   
-  if (setEnvVar == FALSE) options(YouTube_Token = YouTubeToken)
+  if (setEnvVar == TRUE) options(YouTube_Token = YouTubeToken)
   
   return(YouTubeToken)
 }

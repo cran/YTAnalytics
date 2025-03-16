@@ -1,3 +1,6 @@
+# YTAnalytics 0.2.1 2025-03-15
+* Fixed bug in `analytics_request` where function attempts to remove token by element rather than element name.
+
 # YTAnalytics 0.2.0 2024-08-29
 * Added error checking functionality when reading in a token file. Previously a token file would be read in and print a message saying that the token was successfully read, but if the token was expired the user wouldn't know until making a request.
 * Added a progress bar to help track progress when passing vectors of video/playlist ids

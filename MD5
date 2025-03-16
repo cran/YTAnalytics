@@ -1,7 +1,7 @@
-b2669925db57a8697f51fead84fb0537 *DESCRIPTION
+879f4495b1579b431c41c3b3ba51b583 *DESCRIPTION
 dc882bed57a524aa3fa6526e17ffcaf2 *LICENSE
 a297c3efc160ca114bb57e20fff77137 *NAMESPACE
-bfbce227067616d057db7c19a8008503 *NEWS.md
+f101bbd70e1ee379a433c254cb5cc591 *NEWS.md
 d879c9d20780f630645867ae6a76efed *R/audience_retention.R
 f347897428d23eb01b238275944c7517 *R/cities.R
 1c927dc75b0bf86a83bd20e759564ff9 *R/countries.R
@@ -18,9 +18,9 @@ c8c5657d3c9650f81f6dda7aea96b027 *R/time_period.R
 eb5089b0673470427dec85b93be58c51 *R/top_videos.R
 5f975ab14c7af98b152b67dc643112a4 *R/traffic_details.R
 e9f7342b24fee0930e41326da157a3a1 *R/traffic_sources.R
-4874c5c00d0578d37523fccd4531cd2a *R/utils.R
+4475a93edccf8019ef42dcef8c4a899c *R/utils.R
 c63b35aa917946bbaf11fda499fe82b2 *R/videos.R
-8516f828ce51935eb79bcc73e7b9c6dd *R/youtube_oauth.R
+bc22efc397f3b373fd1c288ce8ec6f3f *R/youtube_oauth.R
 90bcdf8ade7a1cd3815a2de2d1d6ac0b *README.md
 761157a048f4c4b97f9971f716b40250 *man/analytics_request.Rd
 439f7deba27ce6adf221e19fcbc5868a *man/channel_cities.Rd
